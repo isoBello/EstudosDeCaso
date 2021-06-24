@@ -1,0 +1,42 @@
+---
+title: "EstudoCaso01"
+author: "Isabella Freitas, Lucas Faleiro, Felipe Vitoriano"
+date: "23/06/2021"
+output: pdf_document
+---
+
+
+
+```{r}
+library('knitr')
+df2016 = read.csv(file='data/imc_20162.csv')
+fem2016 <- df2016[which(df2016$Course=='PPGEE' & df2016$Gender=='F'), ]
+masc2016 <- df2016[which(df2016$Course=='PPGEE' & df2016$Gender=='M'), ]
+
+df2017 = read.csv(file='data/CS01_20172.csv', sep=";")
+df2017 <- df2017[c(3,2,1,4)]
+colnames(df2017)[1] <- "Gender"
+fem2017 <- df2017[which(df2017$Sex=="F"), ]
+masc2017 <- df2017[which(df2017$Sex=="M"), ]
+
+library(GGally, quietly = T, warn.conflicts = F)
+ggpairs(data=df2016, columns=c(3,5),title="Dados da Turma PPGEE 2016", 
+        legend = 1,
+        mapping = ggplot2::aes(colour=Gender), 
+        lower = list(continuous = wrap("smooth", alpha = 0.3, size=0.1), 
+                     discrete = "blank", combo="blank"),
+        diag = list(discrete="barDiag", 
+                    continuous = wrap("densityDiag", alpha=0.5 )), 
+        upper = list(combo = wrap("box_no_facet", alpha=0.5),
+                     continuous = wrap("cor", size=4, align_percent=0.8)))
+
+ggpairs(data=df2017, columns=c(1,3),title="Dados da Turma PPGEE 2017", 
+        legend = 1,
+        mapping = ggplot2::aes(colour=Gender), 
+        lower = list(continuous = wrap("smooth", alpha = 0.3, size=0.1), 
+                     discrete = "blank", combo="blank"),
+        diag = list(discrete="barDiag", 
+                    continuous = wrap("densityDiag", alpha=0.5 )), 
+        upper = list(combo = wrap("box_no_facet", alpha=0.5),
+                     continuous = wrap("cor", size=4, align_percent=0.8)))
+```
